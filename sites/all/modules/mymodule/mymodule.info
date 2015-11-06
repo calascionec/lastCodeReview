@@ -1,0 +1,5 @@
+name = Ajax Loader
+description = will display articles with ajax
+package = Epicodus Code Review
+core = 7.x
+files[] = mymodule.module
