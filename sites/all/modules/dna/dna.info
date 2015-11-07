@@ -1,0 +1,7 @@
+name = DNA
+description = will take half a dna strand and return the full strand
+package = Epicodus Code Review
+core = 7.x
+files[] = dna.module
+dependencies[] = simpletest
+files[] = dna.test

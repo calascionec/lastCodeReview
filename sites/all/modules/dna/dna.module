@@ -1,0 +1,77 @@
+<?php
+
+function dna_menu() {
+    $items['dna'] = array(
+        'title' => 'DNA Generator',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('dna_form'),
+        'access callback' => TRUE,
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    $items['dna_success_page'] = array(
+        'title' => 'Success',
+        'page callback' => 'dna_success',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    return $items;
+}
+
+function dna_form() {
+    $form['user_half'] = array(
+        '#title' => 'User half of double helix',
+        '#type' => 'textfield',
+        '#description' => t("Please enter a space separated sequence of 'A's, 'T's, 'G's, or 'C's."),
+        '#required' => TRUE,
+        '#element_validate' => array('element_validate_dna'),
+    );
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => 'Generate Double Helix',
+    );
+
+    return $form;
+}
+
+function dna_form_submit($form, &$form_state) {
+    $user_half = strtoupper($form_state['values']['user_half']);
+    $result = double_helix($user_half);
+    $_SESSION['dna'] = $result;
+    $form_state['redirect'] = 'dna_success';
+}
+
+function dna_success() {
+    return $_SESSION['dna'];
+}
+
+function double_helix($user_half) {
+    $first_half = explode(' ', $user_half);
+    $second_half = [];
+    foreach ($first_half as $letter) {
+        switch ($letter) {
+            case "A":
+                array_push($second_half, "T");
+                break;
+            case "T":
+                array_push($second_half, "A");
+                break;
+            case "C":
+                array_push($second_half, "G");
+                break;
+            case "G":
+                array_push($second_half, "C");
+                break;
+        }
+    }
+    return [$first_half, $second_half];
+}
+
+function element_validate_dna($element) {
+    $user_input = explode(' ', strtoupper($element['#value']));
+    foreach ($user_input as $letter) {
+        if (!($letter === "A" || $letter === "C" || $letter === "T" || $letter === "G")) {
+            form_error($element, t('Invalid input!!!!!!'));
+        }
+    }
+}

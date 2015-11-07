@@ -1,0 +1,68 @@
+<?php
+
+class MyDNATestCase extends DrupalUnitTestCase
+{
+    public static function getInfo()
+    {
+        return array(
+        'name' => 'DNA unit tests',
+        'description' => 'Tests for dna module.',
+        'group' => 'Epicodus Examples Tests',
+        );
+    }
+
+    function testDoubleHelixA()
+    {
+        $description = 'an A should return "T" ';
+
+        $input = "A";
+
+        $result = double_helix($input);
+
+        $this->assertTrue("T", $result[1][0]);
+    }
+
+    function testDoubleHelixT()
+    {
+        $description = 'a T should return "A"';
+
+        $input = "T";
+
+        $result = double_helix($input);
+
+        $this->assertTrue("A", $result[1][0]);
+    }
+
+    function testDoubleHelixC()
+    {
+        $description = 'a C should return G';
+
+        $input = "C";
+
+        $result = double_helix($input);
+
+        $this->assertTrue("G", $result[1][0]);
+    }
+
+    function testDoubleHelixG()
+    {
+        $description = 'a G should return C';
+
+        $input = "G";
+
+        $result = double_helix($input);
+
+        $this->assertTrue("C", $result[1][0]);
+    }
+    function testDoubleHelixLongString()
+    {
+        $description = 'a C T A G should return G A T C';
+
+        $input = "C T A G";
+
+        $test = double_helix($input);
+        $result = $test[1] === ['G', 'A', 'T', 'C'];
+
+        $this->assertTrue($result, $description);
+    }
+}
