@@ -38,11 +38,16 @@ function dna_form_submit($form, &$form_state) {
     $user_half = strtoupper($form_state['values']['user_half']);
     $result = double_helix($user_half);
     $_SESSION['dna'] = $result;
-    $form_state['redirect'] = 'dna_success';
+    $form_state['redirect'] = 'dna_success_page';
 }
 
 function dna_success() {
-    return $_SESSION['dna'];
+    $text = '';
+    for($i = 0; $i < count($_SESSION['dna'][0]); $i++) {
+        $text = $text . $_SESSION['dna'][0][$i] .' -> '. $_SESSION['dna'][1][$i] . " ";
+    }
+
+    return $text;
 }
 
 function double_helix($user_half) {
