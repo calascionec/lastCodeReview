@@ -1,5 +1,37 @@
 <?php
 
+class DNATests extends DrupalWebTestCase
+{
+    public static function getInfo() {
+        return array(
+            'name' => 'DNA Tests',
+            'description' => 'Tests the DNA module',
+            'group' => 'Epicodus Examples Tests',
+        );
+    }
+
+    public function setUp() {
+        parent::setUp(array('dna'));
+    }
+
+    public function testDNAgenerator() {
+        $edit['user_half'] = 'A';
+        $this->drupalPost('dna', $edit, 'Generate Double Helix');
+        $this->assertText("A -&gt; T ", "Success");
+
+        $edit['user_half'] = 'a c g t';
+        $this->drupalPost('dna', $edit, 'Generate Double Helix');
+        $this->assertText("A -&gt; T 
+C -&gt; G 
+G -&gt; C 
+T -&gt; A ", "Success");
+
+    }
+
+}
+
+
+
 class MyDNATestCase extends DrupalUnitTestCase
 {
     public static function getInfo()
