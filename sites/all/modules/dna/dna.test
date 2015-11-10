@@ -21,11 +21,10 @@ class DNATests extends DrupalWebTestCase
 
         $edit['user_half'] = 'a c g t';
         $this->drupalPost('dna', $edit, 'Generate Double Helix');
-        $this->assertText("A -&gt; T 
-C -&gt; G 
-G -&gt; C 
-T -&gt; A ", "Success");
-
+        $this->assertText("A -&gt; T", "Success");
+        $this->assertText("C -&gt; G","Success" );
+        $this->assertText("G -&gt; C ", "Success");
+        $this->assertText("T -&gt; A ", "Success");
     }
 
 }
